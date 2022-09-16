@@ -1,4 +1,4 @@
-nc: 9
+nc: 6
 depth_multiple: 0.33  # model depth multiple
 width_multiple: 0.50  # layer channel multiple
 anchors:

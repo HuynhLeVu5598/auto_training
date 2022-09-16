@@ -28,6 +28,7 @@ from threading import Thread
 import numpy as np
 import torch
 from tqdm import tqdm
+import logging
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -44,6 +45,7 @@ from utils.general import (LOGGER, box_iou, check_dataset, check_img_size, check
 from utils.metrics import ConfusionMatrix, ap_per_class
 from utils.plots import output_to_target, plot_images, plot_val_study
 from utils.torch_utils import select_device, time_sync
+
 
 
 def save_one_txt(predn, save_conf, shape, file):
@@ -273,6 +275,31 @@ def run(data,
         for i, c in enumerate(ap_class):
             #LOGGER.info(pf % (names[c], seen, nt[c], p[i], r[i], ap50[i], ap[i]))
             LOGGER.info(pf % (names[c], ap50[i]))
+                
+        with open('C:/Users/Administrator/Desktop/vu/auto_training/levu/result.txt','w') as f:
+            f.write('RESULT FINAL')
+            f.write('\n')
+            f.write(pf % ('all', map50))
+            f.write('\n')
+            for i, c in enumerate(ap_class):
+                #LOGGER.info(pf % (names[c], seen, nt[c], p[i], r[i], ap50[i], ap[i]))
+                f.write(pf % (names[c], ap50[i]))
+                f.write('\n')
+        # logging.basicConfig(filename="C:/Users/Administrator/Desktop/vu/auto_training/levu/result.log", 
+        #                     #format='%(asctime)s %(message)s', 
+        #                     filemode='w') 
+
+        #Let us Create an object 
+        # logger=logging.getLogger() 
+
+        #Now we are going to Set the threshold of logger to DEBUG 
+        # logger.setLevel(logging.INFO) 
+        # logger.info('RESULT FINAL')
+        # logger.info(pf % ('all', map50)) 
+        # for i, c in enumerate(ap_class):
+        #     #LOGGER.info(pf % (names[c], seen, nt[c], p[i], r[i], ap50[i], ap[i]))
+        #     logger.info(pf % (names[c], ap50[i]))
+
     # Print speeds
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
     if not training:

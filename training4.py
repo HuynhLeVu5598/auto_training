@@ -12,7 +12,7 @@ import cv2
 import sys
 import subprocess
 import traceback
-
+from levu import val
 
 # def ExecuteCommandSubprocess(command, *args, wait=False):
 #     try:
@@ -46,6 +46,9 @@ import traceback
 #                 print(err.decode("utf-8"))
 #     except:
 #         pass
+button_classes = 0 
+start7 = 0
+MYCOMPLETE = 0
 
 def time_to_name():
     current_time = datetime.datetime.now() 
@@ -251,13 +254,57 @@ def make_window():
                 [sg.T('6.Choose folder save model', font='Any 15', text_color = 'orange')],
                 [sg.Input(size=(35,1), font=('Helvetica',12), key='input_save5',readonly= True, text_color='navy',enable_events= True),
                 sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_image5',enable_events=True) ],
-                [sg.T('7.Start auto training', font='Any 15', text_color = 'orange')],
+                [sg.T('7.Line + MaHang + Camera + NgayThangNam', font='Any 15', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_name5', text_color='navy',enable_events= True)],
+                #sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_image5',enable_events=True) ],
+                [sg.T('8.Start auto training', font='Any 15', text_color = 'orange')],
                 [sg.Button('Start', size=(12,1), font=('Helvetica',10),key= 'start5')],
-                [sg.T('8.Get file model', font='Any 15', text_color = 'orange')],
-                [sg.Button('Get', size=(12,1), font=('Helvetica',10),key= 'get5')],
+                #[sg.T('8.Get file model', font='Any 15', text_color = 'orange')],
+                #[sg.Button('Get', size=(12,1), font=('Helvetica',10),key= 'get5')],
+            ]
+
+    Step_8 = [
+                #[sg.Text('Auto Training 2', font='Any 20', text_color='yellow')],
+                [sg.Checkbox('Use training 2', size=(12,1), font=('Helvetica',15),key= 'use7')],
+                [sg.T('1.Choose folder contain folder train and valid', font='Any 17', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_move7',readonly= True, text_color='navy',enable_events= True),
+                sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_move7',enable_events=True) ],     
+                [sg.T('2.Move folder', font='Any 17', text_color = 'orange')],
+                [sg.Button('Move', size=(12,1), font=('Helvetica',10),key= 'move7')],       
+                [sg.T('3.Enter all name labels', font='Any 17', text_color = 'orange')],
+                [sg.Multiline('',size=(40,8),text_color='navy' ,key='input_classes7')],
+                [sg.Button('OK', size=(12,1), font=('Helvetica',10),key= 'button_classes7')],
+                [sg.T('4.Enter image size', font='Any 17', text_color = 'orange'),
+                sg.InputCombo((416,512,608,896,1024,1280,1408,1536),size=(23,30),default_value=416,key='imgsz7')],
+                [sg.T('5.Choose epoch', font='Any 17', text_color = 'orange')],
+                [sg.Slider(range=(1,500),orientation='h',size=(48,20),font=('Helvetica',11),default_value=300,key= 'input_epoch7')],
+                [sg.T('6.Choose folder save model', font='Any 17', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_save7',readonly= True, text_color='navy',enable_events= True),
+                sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_image7',enable_events=True) ],
+                [sg.T('7.Line + MaHang + Camera + NgayThangNam', font='Any 15', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_name7', text_color='navy',enable_events= True)],
+                # [sg.T('8.Start auto training', font='Any 17', text_color = 'orange')],
+                # [sg.Button('Start', size=(12,1), font=('Helvetica',10),key= 'start7')],
+                # [sg.T('8.Get file model', font='Any 17', text_color = 'orange')],
+                # [sg.Button('Get', size=(12,1), font=('Helvetica',10),key= 'get7')],
             ]
 
 
+
+
+    Step_7 = [
+                [sg.Text('Filter label', font='Any 20', text_color='yellow')],
+                [sg.T('1.Choose folder contain images and labels', font='Any 15', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_folder6',readonly= True, text_color='navy',enable_events= True),
+                sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_move61',enable_events=True) ],  
+                [sg.T('2.Enter number labels', font='Any 15', text_color = 'orange')],
+                [sg.Multiline('',size=(40,8),text_color='navy' ,key='input_numbers6')],   
+                [sg.T('3.Choose folder move', font='Any 15', text_color = 'orange')],
+                [sg.Input(size=(35,1), font=('Helvetica',12), key='input_move6',readonly= True, text_color='navy',enable_events= True),
+                sg.FolderBrowse(size=(12,1), font=('Helvetica',10),key= 'directory_move6',enable_events=True) ],
+                [sg.T('4.Start filter label', font='Any 15', text_color = 'orange')],
+                [sg.Button('Start', size=(12,1), font=('Helvetica',10),key= 'start6')],
+            ]
 
     # layout_1 = [
     #     [sg.Text('VDM AI VISION', font='Any 40', text_color='blue',justification='center',expand_x=True,background_color='white')],
@@ -336,12 +383,20 @@ def make_window():
                             [sg.Column(Step_5, size=(480,285), pad=MYBPAD)]], pad=MYBPAD, background_color=BORDER_COLOR),
                 sg.Column(Step_6, size=(480,700),  pad=MYBPAD),
                 ]]
-        
+
+    layout_3 = [
+            [sg.Text('VDM AI VISION', font='Any 40', text_color='blue',justification='center',expand_x=True,background_color='white')],
+            [
+                sg.Column(Step_8, size=(480,710),  pad=MYBPAD),
+                sg.Column(Step_7, size=(480,710),  pad=MYBPAD),
+  
+                ]]
+
     layout = [[
                 sg.TabGroup([[  
                             sg.Tab('Page 1', layout_1,background_color=BORDER_COLOR),
                             sg.Tab('Page 2', layout_2,background_color=BORDER_COLOR),
-                            #sg.Tab('Page 3', layout_option,background_color=BORDER_COLOR),
+                            sg.Tab('Page 3', layout_3,background_color=BORDER_COLOR),
                             ]],background_color=BORDER_COLOR,selected_background_color= BORDER_COLOR,selected_title_color='black')
                 ]]
     window = sg.Window('Huynh Le Vu', layout, margins=(0,0), background_color=BORDER_COLOR, grab_anywhere=True)
@@ -512,7 +567,6 @@ while True:             # Event Loop
     
 
 
-
 #3
     if event == 'button_classes2' :
         if (values['input_classes2'] != ''):
@@ -541,8 +595,8 @@ while True:             # Event Loop
             for path in glob.glob(mydir):
                 name = path[index+1:-4]
                 print(name)
-                result = model(path,size=1024,conf=values['input_conf2']/100)
-                f = open(mysave + name + '.txt', "a")
+                result = model(path,conf=values['input_conf2']/100)
+                f = open(mysave + name + '.txt', "w")
                 for detect in result.xywhn:
                     mydetects = detect.tolist()
                     for item in range(len(mydetects)):
@@ -553,10 +607,8 @@ while True:             # Event Loop
                         for i,myclass2 in zip(range(len(myclasses2)),myclasses2):
                             if name_label == myclass2:
                                 label_text = str(i)
-                        
-                        if name_label == 'tai_ok':
-                            f.write('9' + " " + str(mydetect[0]) + " " + str(mydetect[1]) + " " + str(mydetect[2]) + " " + str(mydetect[3]))
-                            f.write("\n")
+                        f.write(label_text + " " + str(mydetect[0]) + " " + str(mydetect[1]) + " " + str(mydetect[2]) + " " + str(mydetect[3]))
+                        f.write("\n")
                     f.close()
             with open(mysave + 'classes.txt', "w") as f: 
                 for myclass in myclasses2:
@@ -571,7 +623,6 @@ while True:             # Event Loop
             window['input_classes2'].update(value='')
         else:
             sg.popup_error('Error')
-
 
 
 #4
@@ -594,6 +645,7 @@ while True:             # Event Loop
             #ExecuteCommandSubprocess('python', program_dir)
             subprocess.call(['python',program_dir])
             #subprocess.call(['python', 'test2.py'])
+
             window['input_classes3'].update(value='')
         else:
             sg.popup_error('Error')  
@@ -770,7 +822,7 @@ while True:             # Event Loop
 
 
     if event == 'start5':
-        if values['input_classes5'] != '':
+        if values['input_classes5'] != '' and values['input_name5'] != '' and values['input_save5'] != '':
             #program_dir5 = os.path.join(os.getcwd()  + '/levu/' , 'train.py')
             dir_py5 = os.path.join(os.getcwd()  + '/levu/' , 'hlvtrain.py')
             dir_data5 = os.path.join(os.getcwd()  + '/levu/' , 'data.yaml')
@@ -781,22 +833,199 @@ while True:             # Event Loop
             subprocess.call(['python', program_dir5])
             #subprocess.Popen(program_dir5)
 
+            shutil.copyfile(os.getcwd() + '/levu/runs/train/my_results'+ name_folder +'/weights/best.pt',values['input_save5'] + '/' + values['input_name5'] + '.pt')
+
+            shutil.copyfile(os.getcwd() + '/levu/result.txt',values['input_save5'] + '/' + 'result.txt')
+
+
+
+
+            window['input_classes5'].update(value='')
+            window['input_move5'].update(value='')
+            window['input_save5'].update(value='')            
+            
+            MYCOMPLETE = 1
+
         else:
             sg.popup_error('Error')  
     
 
-    if event == 'get5':
-        try:
-            if values['input_classes5'] != '':
-                shutil.copyfile(os.getcwd() + '/levu/runs/train/my_results'+ name_folder +'/weights/best.pt',values['input_save5'] + '/best.pt')
-                window['input_classes5'].update(value='')
-                window['input_move5'].update(value='')
-                window['input_save5'].update(value='')
-            else:
-                sg.popup_error('Error') 
+    # if event == 'get5':
+    #     try:
+    #         if values['input_classes5'] != '':
+    #             shutil.copyfile(os.getcwd() + '/levu/runs/train/my_results'+ name_folder +'/weights/best.pt',values['input_save5'] + '/best.pt')
+    #             window['input_classes5'].update(value='')
+    #             window['input_move5'].update(value='')
+    #             window['input_save5'].update(value='')
+    #         else:
+    #             sg.popup_error('Error') 
 
-        except:
+    #     except:
+    #         sg.popup_error('Error')  
+
+
+#8
+
+    if MYCOMPLETE == 1 and values['use7'] == True:
+        if values['input_move7'] != '':
+            try:
+                if os.path.isdir(os.getcwd() + '/train'):
+                    shutil.rmtree(os.getcwd() + '/train')
+                if os.path.isdir(os.getcwd() + '/valid'):
+                    shutil.rmtree(os.getcwd() + '/valid')
+                shutil.copytree(values['input_move7'] + '/train',os.getcwd() + '/train')
+                shutil.copytree(values['input_move7'] + '/valid',os.getcwd() + '/valid')
+                button_classes = 1
+                MYCOMPLETE = 0 
+            except:
+                sg.popup_error('Error')   
+                print(traceback.format_exc())
+        else:
+            sg.popup_error('Error')
+
+
+    if button_classes == 1 :
+        if (values['input_classes7'] != ''):
+            myclasses5 = []
+            texts5 = values['input_classes7'].split('\n')
+            for text in texts5:
+                myclasses5.append(text)
+
+            with open(os.getcwd() + '/levu/data.yaml', "w") as f:
+                f.write('train: ' + os.getcwd() + '/train/images')
+                f.write('\n')
+                f.write('val: ' + os.getcwd() + '/valid/images')
+                f.write('\n')
+                f.write('nc: '  + str(len(myclasses5)))     
+                f.write('\n')
+                f.write('names: '  + str(myclasses5))     
+
+            with open(os.getcwd() + '/levu/models/levu.yaml', "w") as f:
+                f.write('nc: ' +  str(len(myclasses5)) + '\n' + 
+                        'depth_multiple: 0.33  # model depth multiple' + '\n' + 
+                        'width_multiple: 0.50  # layer channel multiple' + '\n' + 
+                        'anchors:' + '\n' + 
+                        '  - [10,13, 16,30, 33,23]  # P3/8' + '\n' + 
+                        '  - [30,61, 62,45, 59,119]  # P4/16' + '\n' + 
+                        '  - [116,90, 156,198, 373,326]  # P5/32' + '\n' + 
+
+                        'backbone:' + '\n' + 
+
+                        '  [[-1, 1, Conv, [64, 6, 2, 2]],  # 0-P1/2' + '\n' + 
+                        '   [-1, 1, Conv, [128, 3, 2]],  # 1-P2/4' + '\n' + 
+                        '   [-1, 3, C3, [128]],' + '\n' + 
+                        '   [-1, 1, Conv, [256, 3, 2]],  # 3-P3/8' + '\n' + 
+                        '   [-1, 6, C3, [256]],' + '\n' + 
+                        '   [-1, 1, Conv, [512, 3, 2]],  # 5-P4/16' + '\n' + 
+                        '   [-1, 9, C3, [512]],' + '\n' + 
+                        '   [-1, 1, Conv, [1024, 3, 2]],  # 7-P5/32' + '\n' + 
+                        '   [-1, 3, C3, [1024]],' + '\n' + 
+                        '   [-1, 1, SPPF, [1024, 5]],  # 9' + '\n' + 
+                        '  ]' + '\n' + 
+
+                        'head:' + '\n' + 
+                        '  [[-1, 1, Conv, [512, 1, 1]],' + '\n' + 
+                        "   [-1, 1, nn.Upsample, [None, 2, 'nearest']]," + '\n' + 
+                        '   [[-1, 6], 1, Concat, [1]],  # cat backbone P4' + '\n' + 
+                        '   [-1, 3, C3, [512, False]],  # 13' + '\n' + 
+
+                        '   [-1, 1, Conv, [256, 1, 1]],' + '\n' + 
+                        "   [-1, 1, nn.Upsample, [None, 2, 'nearest']]," + '\n' + 
+                        '   [[-1, 4], 1, Concat, [1]],  # cat backbone P3' + '\n' + 
+                        '   [-1, 3, C3, [256, False]],  # 17 (P3/8-small)' + '\n' + 
+
+                        '   [-1, 1, Conv, [256, 3, 2]],' + '\n' + 
+                        '   [[-1, 14], 1, Concat, [1]],  # cat head P4' + '\n' + 
+                        '   [-1, 3, C3, [512, False]],  # 20 (P4/16-medium)' + '\n' + 
+
+                        '   [-1, 1, Conv, [512, 3, 2]],' + '\n' + 
+                        '   [[-1, 10], 1, Concat, [1]],  # cat head P7' + '\n' + 
+                        '   [-1, 3, C3, [1024, False]],  # 23 (P5/32-large)' + '\n' + 
+
+                        '   [[17, 20, 23], 1, Detect, [nc, anchors]],  # Detect(P3, P4, P5)' + '\n' + 
+                        '  ]'
+                        )
+
+            start7 = 1
+            button_classes = 0 
+        else:
+            sg.popup_error('Error')     
+
+
+    if start7 == 1:
+        if values['input_classes7'] != '' and values['input_move7'] != '' and values['input_save7'] != '':
+            #program_dir5 = os.path.join(os.getcwd()  + '/levu/' , 'train.py')
+            dir_py5 = os.path.join(os.getcwd()  + '/levu/' , 'hlvtrain.py')
+            dir_data5 = os.path.join(os.getcwd()  + '/levu/' , 'data.yaml')
+            dir_model5 = os.path.join(os.getcwd()  + '/levu/models/' , 'levu.yaml')
+            name_folder = time_to_name()
+            program_dir5 = [ dir_py5, ' --img ', str(values['imgsz7']), ' --batch ', '4' ,' --epochs ', '{}'.format(int(values['input_epoch7'])) , ' --data ', dir_data5 , ' --cfg ', dir_model5, ' --weights ', '""', ' --name ', 'my_results' + '{}'.format(name_folder),  ' --cache']
+   
+            subprocess.call(['python', program_dir5])
+            shutil.copyfile(os.getcwd() + '/levu/runs/train/my_results'+ name_folder +'/weights/best.pt',values['input_save7'] + '/' + values['input_name7'] + '.pt')
+        
+            shutil.copyfile(os.getcwd() + '/levu/result.txt',values['input_save7'] + '/' + 'result.txt')
+
+            start7 = 0 
+            window['input_classes7'].update(value='')
+            window['input_move7'].update(value='')
+            window['input_save7'].update(value='')
+        else:
             sg.popup_error('Error')  
+    
+
+    # if event == 'get7':
+    #     try:
+    #         if values['input_classes7'] != '':
+    #             shutil.copyfile(os.getcwd() + '/levu/runs/train/my_results'+ name_folder +'/weights/best.pt',values['input_save7'] + '/best.pt')
+    #             window['input_classes7'].update(value='')
+    #             window['input_move7'].update(value='')
+    #             window['input_save7'].update(value='')
+    #         else:
+    #             sg.popup_error('Error') 
+
+    #     except:
+    #         sg.popup_error('Error')  
+
+
+
+
+#7
+    if event == 'start6':
+        if values['input_folder6'] != '' and values['input_numbers6'] != '' and values['input_move6'] != '':
+            try:
+
+                for dir in glob.glob(values['input_folder6'] + '/*.txt'):
+                    nums = []
+                    file = open(dir,'r')
+                    for b in reversed(range(len(dir))):
+                        if dir[b] == '\\':
+                            position = b
+
+                            break
+                    name = dir[position:-4]
+
+
+                    lines = file.readlines()
+                    for line in lines:
+                        num = line.strip()[0]
+                        nums.append(num)
+
+                    input_nums = values['input_numbers6'].split('\n')
+  
+                    if dir[-11:] != 'classes.txt':
+                        for input_num in input_nums:
+                            if input_num in nums:
+                                shutil.copy(dir, values['input_move6'] + '/' + name + '.txt' )
+                                shutil.copy(dir[:-4] + '.jpg', values['input_move6'] + '/' + name + '.jpg' )
+                    if dir[-11:] == 'classes.txt':
+                        shutil.copy(dir, values['input_move6'] + '/' + 'classes.txt' )
+
+            except:
+                sg.popup_error('Error')  
+
+
+
 
 # p = subprocess.Popen(['python', 'demo_oled_v01.py', '--display',
 # 'ssd1351', '--width', '128', '--height', '128', '--interface', 'spi',

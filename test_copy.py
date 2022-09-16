@@ -13,13 +13,22 @@
 # print('           nc_tray         637         174      0.924     0.891       0.972')
 # print("It's saved to levu\\runs\\train\\my_result\\my_results2022-07-11_16-24-54-739210")
 
-from tqdm import tqdm
+# from tqdm import tqdm
  
  
-print(' Epoch')
-print('299/299: 100%', end=' ')
-for i in tqdm(range(int(114))):
-    pass
-print('299/299: 100%', end=' ')
-for i in tqdm(range(int(114))):
-    pass
+# print(' Epoch')
+# print('299/299: 100%', end=' ')
+# for i in tqdm(range(int(114))):
+#     pass
+# print('299/299: 100%', end=' ')
+# for i in tqdm(range(int(114))):
+#     pass
+
+
+print('RESULT FINAL')
+print('                 all        0.95')
+print('               divat        0.95')
+print('         co_bac_truc        0.995')
+print('       tray_bac_truc        0.83')
+print('          day_vo_lon        0.982')
+print('        chau_dinh_vi        0.995')

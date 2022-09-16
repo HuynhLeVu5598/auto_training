@@ -1,4 +1,4 @@
 train: C:\Users\Administrator\Desktop\vu\auto_training/train/images
 val: C:\Users\Administrator\Desktop\vu\auto_training/valid/images
-nc: 9
-names: ['nut_me', 'divat', 'me', 'kimnamcham', 'nut', 'namchamcao', 'kimcao', 'di_vat_duoi', 'tray_bac_truc']
+nc: 6
+names: ['nut_me', 'divat', 'me', 'namcham', 'namchamcao', 'nut']
