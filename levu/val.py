@@ -276,7 +276,7 @@ def run(data,
             #LOGGER.info(pf % (names[c], seen, nt[c], p[i], r[i], ap50[i], ap[i]))
             LOGGER.info(pf % (names[c], ap50[i]))
                 
-        with open('C:/Users/Administrator/Desktop/vu/auto_training/levu/result.txt','w') as f:
+        with open('result.txt','w') as f:
             f.write('RESULT FINAL')
             f.write('\n')
             f.write(pf % ('all', map50))

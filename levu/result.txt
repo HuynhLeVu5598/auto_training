@@ -1,8 +1,0 @@
-RESULT FINAL
-                 all      0.935
-              nut_me      0.889
-               divat      0.921
-                  me      0.942
-             namcham      0.994
-          namchamcao      0.995
-                 nut      0.868

@@ -69,13 +69,14 @@ def select_device(device='', batch_size=0, newline=True):
         for i, d in enumerate(devices):
             p = torch.cuda.get_device_properties(i)
             #s += f"{'' if i == 0 else space}CUDA:{d} ({p.name}, {p.total_memory / 1024 ** 2:.0f}MiB)\n"  # bytes to MB
-    else:
-        s += 'CPU\n'
+    # else:
+    #     s += 'CPU\n'
 
     if not newline:
         s = s.rstrip()
     #LOGGER.info(s.encode().decode('ascii', 'ignore') if platform.system() == 'Windows' else s)  # emoji-safeA
-    return torch.device('cuda:0' if cuda else 'cpu')
+    #return torch.device('cuda:0' if cuda else 'cpu')
+    return torch.device('cuda:0')
 
 
 def time_sync():

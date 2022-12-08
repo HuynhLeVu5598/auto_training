@@ -279,8 +279,11 @@ class MainWindow(QMainWindow, WindowMixin):
 
         create = action(get_str('crtBox'), self.create_shape,
                         'w', 'new', get_str('crtBoxDetail'), enabled=False)
+        # delete = action(get_str('delBox'), self.delete_selected_shape,
+        #                 'Delete', 'delete', get_str('delBoxDetail'), enabled=False)
         delete = action(get_str('delBox'), self.delete_selected_shape,
-                        'Delete', 'delete', get_str('delBoxDetail'), enabled=False)
+                        'Delete', 'Ctrl+Shift+Q', get_str('delBoxDetail'), enabled=False)
+
         copy = action(get_str('dupBox'), self.copy_selected_shape,
                       'Ctrl+D', 'copy', get_str('dupBoxDetail'),
                       enabled=False)

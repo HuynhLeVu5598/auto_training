@@ -82,7 +82,7 @@ DARK_HEADER_COLOR = '#1B2838'
 MYBPAD = ((20,10), (10, 10))
 
 
-mypath1 = r'C:/Users/Administrator/Desktop/vu/camera_omron/model/best.pt'
+mypath1 = 'best.pt'
 model1 = torch.hub.load('./levu','custom', path= mypath1, source='local',force_reload =False)
 
 
@@ -205,6 +205,9 @@ def make_window():
                 [sg.T('5.Enter all name labels', font='Any 15', text_color = 'orange')],
                 [sg.Multiline('',size=(40,10),text_color='navy' ,key='input_classes2')],
                 [sg.Button('OK', size=(12,1), font=('Helvetica',10),key= 'button_classes2')],
+                [sg.T('6.Enter labels and index edit', font='Any 15', text_color = 'orange')],
+                [sg.Multiline('',size=(40,10),text_color='navy' ,key='input_classes2_1')],
+                [sg.Button('OK', size=(12,1), font=('Helvetica',10),key= 'button_classes2_1')],
                 #[sg.Listbox(values=CLASSES1,size=(23,4), text_color= 'navy',select_mode= sg.LISTBOX_SELECT_MODE_MULTIPLE, key='classes1')],
                 [sg.T('7.Start create auto label', font='Any 15', text_color = 'orange')],
                 [sg.Button('Start', size=(12,1), font=('Helvetica',10),key= 'start2')],
@@ -330,7 +333,7 @@ def make_window():
             [#sg.Column([[sg.Column(Step_1, size=(450,700), pad=MYBPAD)],], pad=MYBPAD, background_color=BORDER_COLOR),
 
             #sg.Column(Step_2, size=(450,700),  pad=MYBPAD),
-                sg.Column(Step_3, size=(480,700),  pad=MYBPAD),
+                sg.Column(Step_3, size=(480,900),  pad=MYBPAD),
                 sg.Column([ 
                             [sg.Column(Step_4, size=(480,395), pad=MYBPAD)],
                             [sg.Column(Step_5, size=(480,285), pad=MYBPAD)]], pad=MYBPAD, background_color=BORDER_COLOR),
@@ -347,7 +350,7 @@ def make_window():
     window = sg.Window('Huynh Le Vu', layout, margins=(0,0), background_color=BORDER_COLOR, grab_anywhere=True)
     return window
 
-mypath1 = r'C:/Users/Administrator/Desktop/vu/camera_omron/model/best.pt'
+mypath1 = 'best.pt'
 model1 = torch.hub.load('./levu','custom', path= mypath1, source='local',force_reload =False)
 window = make_window()
 
@@ -516,15 +519,26 @@ while True:             # Event Loop
 #3
     if event == 'button_classes2' :
         if (values['input_classes2'] != ''):
-            print(values['input_classes2'])
+            #print(values['input_classes2'])
             myclasses2 = []
             texts = values['input_classes2'].split('\n')
             for text in texts:
                 myclasses2.append(text)
-            print(myclasses2)
+            #print(myclasses2)
         else:
             sg.popup_error('Error')
 
+    if event == 'button_classes2_1' :
+        if (values['input_classes2_1'] != ''):
+            myclasses2_1 = []
+            mynumberes2_1 = []
+            texts = values['input_classes2_1'].split('\n')
+            for text in texts:
+                myclasses2_1.append(text.split(' ')[0])
+                mynumberes2_1.append(text.split(' ')[1])
+
+        else:
+            sg.popup_error('Error')
 
     if event == 'start2':
         if (values['input_weight2'] != '') & (values['input_image2'] !='') & (values['input_save2'] != '') & (values['input_classes2'] != ''):
@@ -533,15 +547,15 @@ while True:             # Event Loop
 
             mydir = values['input_image2'] + "/*.jpg"
             mysave = values['input_save2'] + '/'
-            print(mysave)
+            #print(mysave)
             for i,a in zip(reversed(range(len(mydir))),reversed(mydir)):
                 if a == '/':
                     index = i
                     break
             for path in glob.glob(mydir):
                 name = path[index+1:-4]
-                print(name)
-                result = model(path,size=1024,conf=values['input_conf2']/100)
+                #print(name)
+                result = model(path,size=416,conf=values['input_conf2']/100)
                 f = open(mysave + name + '.txt', "a")
                 for detect in result.xywhn:
                     mydetects = detect.tolist()
@@ -554,9 +568,11 @@ while True:             # Event Loop
                             if name_label == myclass2:
                                 label_text = str(i)
                         
-                        if name_label == 'tai_ok':
-                            f.write('9' + " " + str(mydetect[0]) + " " + str(mydetect[1]) + " " + str(mydetect[2]) + " " + str(mydetect[3]))
-                            f.write("\n")
+                        for index_classes in range(len(myclasses2_1)):
+                            if name_label == myclasses2_1[index_classes]:
+                                print(name)
+                                f.write(str(mynumberes2_1[index_classes]) + " " + str(mydetect[0]) + " " + str(mydetect[1]) + " " + str(mydetect[2]) + " " + str(mydetect[3]))
+                                f.write("\n")
                     f.close()
             with open(mysave + 'classes.txt', "w") as f: 
                 for myclass in myclasses2:
@@ -569,6 +585,7 @@ while True:             # Event Loop
             window['input_image2'].update(value='')
             window['input_save2'].update(value='')
             window['input_classes2'].update(value='')
+            window['input_classes2_1'].update(value='')
         else:
             sg.popup_error('Error')
 

@@ -1,2 +1,7 @@
 RESULT FINAL
-                 all          0
+                 all      0.944
+             taychoi      0.995
+          han_ko_dat      0.975
+              buichi      0.852
+              ko_han      0.995
+               divat      0.904
